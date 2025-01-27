@@ -172,7 +172,7 @@
     let score = 0;
     let misses = 0;
     const MAX_MISSES = 5;
-    const TARGET_SCORE = 20;
+    const TARGET_SCORE = 420;
     let timeRemaining = 69; // 69 seconds
     let isGameOver = false; 
 
@@ -216,11 +216,11 @@
         timerDisplay.textContent = `Time: ${timeRemaining}`;
         if (timeRemaining <= 0) {
           clearInterval(intervalId);
-          // Time's up => check if score < 500 => game over
+          // Time's up => check if score < TARGET_SCORE => game over
           if (score < TARGET_SCORE) {
             showGameOverScreen();
           } else {
-            // Reached 500 or more at final second => congrats
+            // They reached or exceeded the target => redirect
             window.location.href = `congrats.html?score=${score}`;
           }
         }
@@ -285,23 +285,30 @@
     const instructions = document.getElementById('instructions');
     const playButton = document.getElementById('playButton');
 
+    // We'll track if the timer has been started once
+    let hasTimerStarted = false;
+
     playButton.addEventListener('click', async () => {
-  // If your AudioContext exists and is suspended, resume it
-  if (audioContext && audioContext.state === 'suspended') {
-    await audioContext.resume();
-  }
+      if (audioContext && audioContext.state === 'suspended') {
+        await audioContext.resume();
+      }
+      // Start the music immediately when user clicks play
+      playMusic();
 
-  // Start the music immediately
-  playMusic();
-
-  // Lock pointer to start the game
-  controls.lock();
-});
+      // Lock pointer to start the game
+      controls.lock();
+    });
 
     controls.addEventListener('lock', () => {
       instructions.style.display = 'none';
       blocker.style.display = 'none';
       document.getElementById('crosshair').style.display = 'block';
+
+      // Start the timer once the first time we truly enter pointer lock
+      if (!hasTimerStarted) {
+        startTimer();
+        hasTimerStarted = true;
+      }
     });
 
     controls.addEventListener('unlock', () => {
@@ -435,6 +442,7 @@
       const geometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
       const material = new THREE.MeshBasicMaterial({ color: getRandomColor() });
       const cube = new THREE.Mesh(geometry, material);
+      // Put them somewhere in the scene
       cube.position.set(1, 1, 1);
       scene.add(cube);
       cubes.push(cube);
