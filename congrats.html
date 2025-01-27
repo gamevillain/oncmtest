@@ -10,6 +10,7 @@
             background-color: #000;
             color: #fff;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -23,15 +24,28 @@
         p {
             font-size: 1.5rem;
         }
+        #finalScore {
+            margin-top: 1rem;
+            font-size: 1.25rem;
+            color: #0f0;
+        }
     </style>
 </head>
 <body>
     <div>
-        <h1>good shit</h1>
-        <p>You passed the preliminary test
-      </br>copy the key and dm @chrismadoath for your next assignment</br></br></br>
-  1BWJC3i8b6WiMyFVhf4dj8wpFkvS2Biq9j</br>
-  </p>
+        <h1>solid</h1>
+        <p>dm @chrismadoath with the key below for the next assignment:</p>
+        <p><b>1BWJC3i8b6WiMyFVhf4dj8wpFkvS2Biq9j</b></p>
+        <p id="finalScore"></p>
     </div>
+
+    <script>
+      // Read the 'score' from the query parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const finalScore = urlParams.get('score') || 0;
+
+      const scoreElement = document.getElementById('finalScore');
+      scoreElement.textContent = "Your final score: " + finalScore;
+    </script>
 </body>
 </html>
