@@ -129,10 +129,10 @@
         let score = 0;
         const scoreDisplay = document.getElementById('score-display');
 
-        // Function to check if the score exceeds 500 and redirect
+        // Function to check if the score exceeds 100 and redirect
         function checkScoreAndRedirect(score) {
             console.log('Current score:', score); // Debug: Log the current score
-            if (score > 500) {
+            if (score > 100) {
                 console.log('Redirecting to congrats.html...'); // Debug: Log the redirect attempt
                 window.location.href = 'congrats.html'; // Redirect to the congrats page
             }
@@ -143,7 +143,7 @@
             score += points;
             scoreDisplay.textContent = `Score: ${score}`;
             console.log('Score updated to:', score); // Debug: Log the updated score
-            checkScoreAndRedirect(score); // Check if the score exceeds 500
+            checkScoreAndRedirect(score); // Check if the score exceeds 100
         }
 
         // Set up the scene
